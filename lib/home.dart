@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:bill_splitter/results.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -239,7 +240,7 @@ class _BillSplitState extends State<BillSplit> {
                 style: TextButton.styleFrom(
                   backgroundColor:Colors.greenAccent
                 ),
-                  onPressed: (){}, child:Center(
+                  onPressed: () => Navigator.push(context,MaterialPageRoute(builder: (context)=>ResultsPage(bill,tax,friendsvalue,tip))), child:Center(
                     child: Text("Split Bill",
                                   style:GoogleFonts.montserrat(
                                     fontSize: 15,
