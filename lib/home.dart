@@ -1,65 +1,82 @@
-import 'dart:ffi';
-
 import 'package:bill_splitter/results.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class BillSplit extends StatefulWidget {
-  const BillSplit({super.key}); // Corrected constructor
+  const BillSplit({super.key});
 
   @override
   _BillSplitState createState() => _BillSplitState();
 }
 
 class _BillSplitState extends State<BillSplit> {
-  double friendsvalue = 0.0;
+  double friendsvalue = 1;
   double tip = 0.0;
   String tax = '0';
   String bill = '';
-  buildbutton(String text){
+
+  // Calculate the total amount dynamically
+  double get totalAmount {
+    double billAmount = double.tryParse(bill) ?? 0.0;
+    double taxAmount = double.tryParse(tax) ?? 0.0;
+    return billAmount + (billAmount * (taxAmount / 100)) + tip;
+  }
+
+  Widget buildButton(String text) {
     return Expanded(
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(padding: EdgeInsets.all(20)),
-        onPressed:(){
-          if(text=='-'){
-            setState(() {
+        onPressed: () {
+          setState(() {
+            if (text == '-') {
               bill = '';
-            });
-          }else{
-            setState(() {
-              bill+=text;
-            });
-          }
-        }, child:Text(text,style:GoogleFonts.montserrat(
-        fontSize: 25 ,color: Colors.black,fontWeight: FontWeight.w700
-      ),),),
+            } else {
+              bill += text;
+            }
+          });
+        },
+        child: Text(
+          text,
+          style: GoogleFonts.montserrat(
+            fontSize: 25,
+            color: Colors.black,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ),
     );
   }
+
   TextStyle infostyle = GoogleFonts.montserrat(
-    fontSize:18,color: Colors.black,fontWeight: FontWeight.w700
+    fontSize: 18,
+    color: Colors.black,
+    fontWeight: FontWeight.w700,
   );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.only(left: 20,right: 20),
+          margin: EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
               Container(
                 alignment: Alignment.centerLeft,
                 margin: EdgeInsets.only(top: 40),
-                child: Text("Split Bill",style:GoogleFonts.montserrat(
-                  fontSize: 25,fontWeight: FontWeight.w700
-                ),),
+                child: Text(
+                  "Split Bill",
+                  style: GoogleFonts.montserrat(
+                    fontSize: 25,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
               ),
-              SizedBox(height: 10,),
+              SizedBox(height: 10),
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: 100,
-                decoration: BoxDecoration(
-                  color: Colors.lightGreen
-                ),
+                decoration: BoxDecoration(color: Colors.lightGreen),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -68,12 +85,14 @@ class _BillSplitState extends State<BillSplit> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Total",style:GoogleFonts.montserrat(
-                            fontSize: 20,fontWeight: FontWeight.w700
-                          ),),
-                                    Text("34",style:GoogleFonts.montserrat(
-                      fontSize: 25,fontWeight: FontWeight.w700
-                                    ),)
+                          Text("Total", style: infostyle),
+                          Text(
+                            totalAmount.toStringAsFixed(2), // Updated Total
+                            style: GoogleFonts.montserrat(
+                              fontSize: 25,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -84,20 +103,18 @@ class _BillSplitState extends State<BillSplit> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Friends",style: infostyle),
-                              Text("Tax",style: infostyle),
-                              Text("Tip",style: infostyle),
+                              Text("Friends", style: infostyle),
+                              Text("Tax", style: infostyle),
+                              Text("Tip", style: infostyle),
                             ],
                           ),
-                          SizedBox(
-                            width: 10,
-                          ),
+                          SizedBox(width: 10),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(friendsvalue.round().toString(),style: infostyle),
-                              Text("${tax} %",style: infostyle),
-                              Text(tip.round().toString(),style: infostyle),
+                              Text(friendsvalue.round().toString(), style: infostyle),
+                              Text("$tax %", style: infostyle),
+                              Text(tip.round().toString(), style: infostyle),
                             ],
                           )
                         ],
@@ -106,152 +123,161 @@ class _BillSplitState extends State<BillSplit> {
                   ],
                 ),
               ),
-              SizedBox(height: 10,),
-              Text("How many friends ?",style: GoogleFonts.montserrat(
-                fontSize: 20,color: Colors.black,fontWeight: FontWeight.w700
-              ),),
+              SizedBox(height: 10),
+              Text(
+                "How many friends?",
+                style: GoogleFonts.montserrat(
+                  fontSize: 20,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
               Slider(
-                min: 0,
+                min: 1, // Fixed: No 0 friends allowed
                 max: 15,
-                divisions: 15,
+                divisions: 14,
                 activeColor: Colors.green,
                 inactiveColor: Colors.grey,
                 value: friendsvalue,
-                onChanged:(value){
+                onChanged: (value) {
                   setState(() {
                     friendsvalue = value;
                   });
                 },
               ),
-              SizedBox(height: 10,),
+              SizedBox(height: 10),
               Row(
                 children: [
                   Container(
-                    width: MediaQuery.of(context).size.width/2,
+                    width: MediaQuery.of(context).size.width / 2,
                     height: 70,
                     decoration: BoxDecoration(
                       color: Colors.lightGreen,
-                      borderRadius: BorderRadius.circular(20)
+                      borderRadius: BorderRadius.circular(20),
                     ),
                     child: Column(
                       children: [
-                        Text("TIP",style:GoogleFonts.montserrat(
-                            fontSize: 20,
+                        Text(
+                          "TIP",
+                          style: GoogleFonts.montserrat(
+                            fontSize: 13,
                             color: Colors.black,
-                            fontWeight: FontWeight.w700
-                        ),),
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Container(
-                              width: 40,
-                              height: 40,
-                              child: FloatingActionButton(onPressed:(){
+                            FloatingActionButton(
+                              onPressed: () {
                                 setState(() {
-                                  tip--;
+                                  if (tip > 0) tip--; // Prevent negative tip
                                 });
                               },
-                                backgroundColor: Colors.grey[400],
-                              child: Icon(Icons.remove,color: Colors.black,),),
+                              backgroundColor: Colors.grey[400],
+                              child: Icon(Icons.remove, color: Colors.black),
+                              mini: true,
                             ),
-                            Text("${tip.round().toString()}",style: GoogleFonts.montserrat(
-                              fontSize: 20,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w700
-                            ),),
-                            Container(
-                              width: 40,
-                              height: 40,
-                              child: FloatingActionButton(onPressed: (){
-                                tip++;
+                            Text(
+                              tip.round().toString(),
+                              style: GoogleFonts.montserrat(
+                                fontSize: 20,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            FloatingActionButton(
+                              onPressed: () {
+                                setState(() {
+                                  tip++;
+                                });
                               },
-                              backgroundColor:Colors.grey[400],
-                              child:Icon(Icons.add,color: Colors.black,),
-                            )
-                            )
+                              backgroundColor: Colors.grey[400],
+                              child: Icon(Icons.add, color: Colors.black),
+                              mini: true,
+                            ),
                           ],
-                        )
-                      ]
+                        ),
+                      ],
                     ),
                   ),
-                  SizedBox(width: 10,),
+                  SizedBox(width: 10),
                   Container(
-                    width: MediaQuery.of(context).size.width/3,
+                    width: MediaQuery.of(context).size.width / 3,
                     height: 70,
                     decoration: BoxDecoration(
                       color: Colors.lightGreen,
-                      borderRadius: BorderRadius.circular(20)
+                      borderRadius: BorderRadius.circular(20),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(7.0),
                       child: TextField(
                         keyboardType: TextInputType.number,
-                        onChanged: (value){
+                        onChanged: (value) {
                           setState(() {
-                            tax = value;
+                            tax = value.isEmpty ? '0' : value;
                           });
                         },
                         decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                           borderRadius: BorderRadius.circular(20)
-                          ),
-                              labelText:"Tax in %",
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+                          labelText: "Tax in %",
                           labelStyle: GoogleFonts.montserrat(
                             fontSize: 15,
                             color: Colors.black,
-                            fontWeight: FontWeight.w700
-                          )
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
               SizedBox(height: 20),
               Row(
-                children: [
-                  buildbutton("1"),
-                  buildbutton("2"),
-                  buildbutton("3"),
-                ],
+                children: [buildButton("1"), buildButton("2"), buildButton("3")],
               ),
               Row(
-                children: [
-                  buildbutton("4"),
-                  buildbutton("5"),
-                  buildbutton("6"),
-                ],
+                children: [buildButton("4"), buildButton("5"), buildButton("6")],
               ),
               Row(
-                children: [
-                  buildbutton("7"),
-                  buildbutton("8"),
-                  buildbutton("9"),
-                ],
+                children: [buildButton("7"), buildButton("8"), buildButton("9")],
               ),
               Row(
-                children: [
-                  buildbutton("."),
-                  buildbutton("0"),
-                  buildbutton("-"),
-                ],
+                children: [buildButton("."), buildButton("0"), buildButton("-")],
               ),
               TextButton(
-                style: TextButton.styleFrom(
-                  backgroundColor:Colors.greenAccent
+                style: TextButton.styleFrom(backgroundColor: Colors.greenAccent),
+                onPressed: () {
+                  if (bill.isEmpty || double.tryParse(bill) == null) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Enter a valid bill amount")));
+                    return;
+                  }
+                  if (double.tryParse(tax) == null) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Enter a valid tax percentage")));
+                    return;
+                  }
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ResultsPage(bill, tax, friendsvalue, tip),
+                    ),
+                  );
+                },
+                child: Center(
+                  child: Text(
+                    "Split Bill",
+                    style: GoogleFonts.montserrat(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black,
+                    ),
+                  ),
                 ),
-                  onPressed: () => Navigator.push(context,MaterialPageRoute(builder: (context)=>ResultsPage(bill,tax,friendsvalue,tip))), child:Center(
-                    child: Text("Split Bill",
-                                  style:GoogleFonts.montserrat(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.black
-                                  )),
-                  ), )
+              ),
             ],
           ),
         ),
-      )
+      ),
     );
   }
 }
