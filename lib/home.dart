@@ -12,11 +12,24 @@ class BillSplit extends StatefulWidget {
 
 class _BillSplitState extends State<BillSplit> {
   double friendsvalue = 0.0;
+  double tip = 0.0;
+  String tax = '0';
+  String bill = '';
   buildbutton(String text){
     return Expanded(
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(padding: EdgeInsets.all(20)),
-        onPressed:(){}, child:Text(text,style:GoogleFonts.montserrat(
+        onPressed:(){
+          if(text=='-'){
+            setState(() {
+              bill = '';
+            });
+          }else{
+            setState(() {
+              bill+=text;
+            });
+          }
+        }, child:Text(text,style:GoogleFonts.montserrat(
         fontSize: 25 ,color: Colors.black,fontWeight: FontWeight.w700
       ),),),
     );
@@ -81,9 +94,9 @@ class _BillSplitState extends State<BillSplit> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("10",style: infostyle),
-                              Text("14 %",style: infostyle),
-                              Text("15",style: infostyle),
+                              Text(friendsvalue.round().toString(),style: infostyle),
+                              Text("${tax} %",style: infostyle),
+                              Text(tip.round().toString(),style: infostyle),
                             ],
                           )
                         ],
@@ -102,8 +115,12 @@ class _BillSplitState extends State<BillSplit> {
                 divisions: 15,
                 activeColor: Colors.green,
                 inactiveColor: Colors.grey,
-                value: 12,
-                onChanged:(value){},
+                value: friendsvalue,
+                onChanged:(value){
+                  setState(() {
+                    friendsvalue = value;
+                  });
+                },
               ),
               SizedBox(height: 10,),
               Row(
@@ -128,11 +145,15 @@ class _BillSplitState extends State<BillSplit> {
                             Container(
                               width: 40,
                               height: 40,
-                              child: FloatingActionButton(onPressed:(){},
+                              child: FloatingActionButton(onPressed:(){
+                                setState(() {
+                                  tip--;
+                                });
+                              },
                                 backgroundColor: Colors.grey[400],
                               child: Icon(Icons.remove,color: Colors.black,),),
                             ),
-                            Text("20",style: GoogleFonts.montserrat(
+                            Text("${tip.round().toString()}",style: GoogleFonts.montserrat(
                               fontSize: 20,
                               color: Colors.black,
                               fontWeight: FontWeight.w700
@@ -140,7 +161,9 @@ class _BillSplitState extends State<BillSplit> {
                             Container(
                               width: 40,
                               height: 40,
-                              child: FloatingActionButton(onPressed: (){},
+                              child: FloatingActionButton(onPressed: (){
+                                tip++;
+                              },
                               backgroundColor:Colors.grey[400],
                               child:Icon(Icons.add,color: Colors.black,),
                             )
@@ -162,6 +185,11 @@ class _BillSplitState extends State<BillSplit> {
                       padding: const EdgeInsets.all(7.0),
                       child: TextField(
                         keyboardType: TextInputType.number,
+                        onChanged: (value){
+                          setState(() {
+                            tax = value;
+                          });
+                        },
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                            borderRadius: BorderRadius.circular(20)
