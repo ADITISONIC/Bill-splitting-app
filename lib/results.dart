@@ -6,7 +6,7 @@ class ResultsPage extends StatefulWidget {
   final String tax;
   final double friends;
   final double tip;
-  const ResultsPage(this.bill,this.tax,this.friends,this.tip);
+  const ResultsPage(this.bill,this.tax,this.friends,this.tip, {super.key});
 
   @override
   State<ResultsPage> createState() => _ResultsPageState();

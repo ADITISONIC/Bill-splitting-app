@@ -175,8 +175,8 @@ class _BillSplitState extends State<BillSplit> {
                                 });
                               },
                               backgroundColor: Colors.grey[400],
-                              child: Icon(Icons.remove, color: Colors.black),
                               mini: true,
+                              child: Icon(Icons.remove, color: Colors.black),
                             ),
                             Text(
                               tip.round().toString(),
@@ -193,8 +193,8 @@ class _BillSplitState extends State<BillSplit> {
                                 });
                               },
                               backgroundColor: Colors.grey[400],
-                              child: Icon(Icons.add, color: Colors.black),
                               mini: true,
+                              child: Icon(Icons.add, color: Colors.black),
                             ),
                           ],
                         ),

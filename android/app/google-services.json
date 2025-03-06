@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "421187732230",
+    "project_id": "billsplit-bb1b8",
+    "storage_bucket": "billsplit-bb1b8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:421187732230:android:6c88d45a019e94f5a2d487",
+        "android_client_info": {
+          "package_name": "com.example.bill_splitter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAND8NTPLcxT9l1Ab8NMZNqnBOirqMqhlY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:421187732230:android:3ba1a0686469e6bfa2d487",
+        "android_client_info": {
+          "package_name": "com.example.simple"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAND8NTPLcxT9l1Ab8NMZNqnBOirqMqhlY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
