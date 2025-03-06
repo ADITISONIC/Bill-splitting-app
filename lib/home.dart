@@ -1,4 +1,5 @@
 import 'package:bill_splitter/results.dart';
+import 'package:bill_splitter/split_expenses.dart'; // Import the SplitExpensesPage
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -133,7 +134,7 @@ class _BillSplitState extends State<BillSplit> {
                 ),
               ),
               Slider(
-                min: 1, // Fixed: No 0 friends allowed
+                min: 1,
                 max: 15,
                 divisions: 14,
                 activeColor: Colors.green,
@@ -171,7 +172,7 @@ class _BillSplitState extends State<BillSplit> {
                             FloatingActionButton(
                               onPressed: () {
                                 setState(() {
-                                  if (tip > 0) tip--; // Prevent negative tip
+                                  if (tip > 0) tip--;
                                 });
                               },
                               backgroundColor: Colors.grey[400],
@@ -233,18 +234,6 @@ class _BillSplitState extends State<BillSplit> {
                 ],
               ),
               SizedBox(height: 20),
-              Row(
-                children: [buildButton("1"), buildButton("2"), buildButton("3")],
-              ),
-              Row(
-                children: [buildButton("4"), buildButton("5"), buildButton("6")],
-              ),
-              Row(
-                children: [buildButton("7"), buildButton("8"), buildButton("9")],
-              ),
-              Row(
-                children: [buildButton("."), buildButton("0"), buildButton("-")],
-              ),
               TextButton(
                 style: TextButton.styleFrom(backgroundColor: Colors.greenAccent),
                 onPressed: () {
@@ -266,6 +255,26 @@ class _BillSplitState extends State<BillSplit> {
                 child: Center(
                   child: Text(
                     "Split Bill",
+                    style: GoogleFonts.montserrat(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 10), // Added spacing
+              TextButton(
+                style: TextButton.styleFrom(backgroundColor: Colors.greenAccent),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SplitExpensesPage()),
+                  );
+                },
+                child: Center(
+                  child: Text(
+                    "Split Expenses",
                     style: GoogleFonts.montserrat(
                       fontSize: 15,
                       fontWeight: FontWeight.w700,
