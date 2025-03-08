@@ -127,6 +127,17 @@ class _BillSplitState extends State<BillSplit> {
                   fontWeight: FontWeight.w700,
                 ),
               ),
+
+              // **Display Friends Count**
+              Text(
+                "Number of Friends: ${friendsvalue.round()}",
+                style: GoogleFonts.montserrat(
+                  fontSize: 18,
+                  color: Colors.blueAccent,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+
               Slider(
                 min: 1,
                 max: 15,
