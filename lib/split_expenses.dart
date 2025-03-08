@@ -69,8 +69,10 @@ class _SplitExpensesPageState extends State<SplitExpensesPage> {
     return Scaffold(
       backgroundColor: Colors.lightGreen, // Page Background
       appBar: AppBar(
-        title: Text("Split Expenses"),
-        backgroundColor: Color(0xFF3E363F), // AppBar Color
+        title: Text("Split Expenses",style: TextStyle(color:Colors.white70),),
+        backgroundColor: Color(0xFF3E363F),
+        iconTheme: IconThemeData(color: Colors.white),
+       // AppBar Color
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
