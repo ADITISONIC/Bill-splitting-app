@@ -1,57 +1,72 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'home.dart';
+// Import BillSplit screen
+
 class ResultsPage extends StatefulWidget {
   final String bill;
   final String tax;
   final double friends;
   final double tip;
-  const ResultsPage(this.bill,this.tax,this.friends,this.tip, {super.key});
+  const ResultsPage(this.bill, this.tax, this.friends, this.tip, {super.key});
 
   @override
   State<ResultsPage> createState() => _ResultsPageState();
 }
 
 class _ResultsPageState extends State<ResultsPage> {
-  String dividedamount = '';
+  String dividedAmount = '';
+
   @override
   void initState() {
     super.initState();
-    divideamount();
+    divideAmount();
   }
-  divideamount(){
-    double taxamount = double.parse(widget.bill)*(double.parse(widget.tax)/100);
-    double finalbill = (double.parse(widget.bill)+taxamount+widget.tip)/widget.friends;
+
+  divideAmount() {
+    double taxAmount = double.parse(widget.bill) * (double.parse(widget.tax) / 100);
+    double finalBill = (double.parse(widget.bill) + taxAmount + widget.tip) / widget.friends;
     setState(() {
-      dividedamount = finalbill.toStringAsFixed(2);
+      dividedAmount = finalBill.toStringAsFixed(2);
     });
   }
+
   TextStyle infostyle = GoogleFonts.montserrat(
-      fontSize:18,color: Colors.black,fontWeight: FontWeight.w700
+    fontSize: 18,
+    color: Colors.black,
+    fontWeight: FontWeight.w700,
   );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text("Bill Split Result")),
       body: Container(
-        margin: EdgeInsets.only(left: 20,right: 20),
+        margin: EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
               alignment: Alignment.centerLeft,
-              margin: EdgeInsets.only(top: 40),
-              child: Text("Result",style:GoogleFonts.montserrat(
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-                color: Colors.black
-              ) ,),
+              child: Text(
+                "Result",
+                style: GoogleFonts.montserrat(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
+                ),
+              ),
             ),
-            SizedBox(height: 20,),
+            SizedBox(height: 20),
+
+            // **Total Amount & Details**
             Container(
               width: MediaQuery.of(context).size.width,
               height: 100,
               decoration: BoxDecoration(
-                  color: Colors.lightGreen
+                color: Colors.lightGreen,
+                borderRadius: BorderRadius.circular(10),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -61,12 +76,20 @@ class _ResultsPageState extends State<ResultsPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Equally divided",style:GoogleFonts.montserrat(
-                            fontSize: 20,fontWeight: FontWeight.w700
-                        ),),
-                        Text("\$$dividedamount",style:GoogleFonts.montserrat(
-                            fontSize: 30,fontWeight: FontWeight.w700
-                        ),)
+                        Text(
+                          "Equally Divided",
+                          style: GoogleFonts.montserrat(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        Text(
+                          "₹$dividedAmount",
+                          style: GoogleFonts.montserrat(
+                            fontSize: 30,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -77,26 +100,48 @@ class _ResultsPageState extends State<ResultsPage> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Friends",style: infostyle),
-                            Text("Tax",style: infostyle),
-                            Text("Tip",style: infostyle),
+                            Text("Friends", style: infostyle),
+                            Text("Tax", style: infostyle),
+                            Text("Tip", style: infostyle),
                           ],
                         ),
-                        SizedBox(
-                          width: 10,
-                        ),
+                        SizedBox(width: 10),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(widget.friends.toString(),style: infostyle),
-                            Text("${widget.tax} %",style: infostyle),
-                            Text(widget.tip.round().toString(),style: infostyle),
+                            Text(widget.friends.toString(), style: infostyle),
+                            Text("${widget.tax}%", style: infostyle),
+                            Text("₹${widget.tip.round()}", style: infostyle),
                           ],
-                        )
+                        ),
                       ],
                     ),
                   ),
                 ],
+              ),
+            ),
+
+            SizedBox(height: 30),
+
+            // **Go Back to Home Button**
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blueAccent,
+                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 40),
+              ),
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => BillSplit()),
+                );
+              },
+              child: Text(
+                "Go Back to Home",
+                style: GoogleFonts.montserrat(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                ),
               ),
             ),
           ],
