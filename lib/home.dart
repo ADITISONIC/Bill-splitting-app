@@ -1,5 +1,5 @@
 import 'package:bill_splitter/results.dart';
-import 'package:bill_splitter/split_expenses.dart'; // Import the SplitExpensesPage
+import 'package:bill_splitter/split_expenses.dart'; // Import Multiple Payments Screen
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -23,31 +23,6 @@ class _BillSplitState extends State<BillSplit> {
     return billAmount + (billAmount * (taxAmount / 100)) + tip;
   }
 
-  Widget buildButton(String text) {
-    return Expanded(
-      child: OutlinedButton(
-        style: OutlinedButton.styleFrom(padding: EdgeInsets.all(20)),
-        onPressed: () {
-          setState(() {
-            if (text == '-') {
-              bill = '';
-            } else {
-              bill += text;
-            }
-          });
-        },
-        child: Text(
-          text,
-          style: GoogleFonts.montserrat(
-            fontSize: 25,
-            color: Colors.black,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-      ),
-    );
-  }
-
   TextStyle infostyle = GoogleFonts.montserrat(
     fontSize: 18,
     color: Colors.black,
@@ -62,69 +37,88 @@ class _BillSplitState extends State<BillSplit> {
           margin: EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
+              SizedBox(height: 40),
+
               Container(
-                alignment: Alignment.centerLeft,
-                margin: EdgeInsets.only(top: 40),
+                alignment: Alignment.center,
                 child: Text(
-                  "Split Bill",
+                  "💰 Split Your Bill 💰",
                   style: GoogleFonts.montserrat(
-                    fontSize: 25,
+                    fontSize: 26,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+
+              SizedBox(height: 20),
+
+              // **Total Amount Input**
               Container(
-                width: MediaQuery.of(context).size.width,
-                height: 100,
-                decoration: BoxDecoration(color: Colors.lightGreen),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.lightGreen.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Total", style: infostyle),
-                          Text(
-                            totalAmount.toStringAsFixed(2), // Updated Total
-                            style: GoogleFonts.montserrat(
-                              fontSize: 25,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ],
+                    Text(
+                      "Enter Total Bill Amount",
+                      style: GoogleFonts.montserrat(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Friends", style: infostyle),
-                              Text("Tax", style: infostyle),
-                              Text("Tip", style: infostyle),
-                            ],
-                          ),
-                          SizedBox(width: 10),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(friendsvalue.round().toString(), style: infostyle),
-                              Text("$tax %", style: infostyle),
-                              Text(tip.round().toString(), style: infostyle),
-                            ],
-                          )
-                        ],
+                    SizedBox(height: 10),
+                    TextField(
+                      keyboardType: TextInputType.number,
+                      onChanged: (value) {
+                        setState(() {
+                          bill = value.isEmpty ? '0' : value;
+                        });
+                      },
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        labelText: "Total Amount",
+                        labelStyle: GoogleFonts.montserrat(
+                          fontSize: 15,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: 10),
+
+              SizedBox(height: 20),
+
+              // **Bill Calculation Summary**
+              Container(
+                width: MediaQuery.of(context).size.width,
+                padding: EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                  color: Colors.lightGreen,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Column(
+                  children: [
+                    Text("Final Amount to be Split", style: infostyle),
+                    Text(
+                      "₹ ${totalAmount.toStringAsFixed(2)}",
+                      style: GoogleFonts.montserrat(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              SizedBox(height: 20),
+
+              // **Friends Selection**
               Text(
                 "How many friends?",
                 style: GoogleFonts.montserrat(
@@ -146,23 +140,27 @@ class _BillSplitState extends State<BillSplit> {
                   });
                 },
               ),
-              SizedBox(height: 10),
+
+              SizedBox(height: 20),
+
+              // **Tip and Tax Input**
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
+                  // **Tip Section**
                   Container(
-                    width: MediaQuery.of(context).size.width / 2,
-                    height: 70,
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: Colors.lightGreen,
+                      color: Colors.lightGreen.withOpacity(0.3),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Column(
                       children: [
                         Text(
-                          "TIP",
+                          "Tip",
                           style: GoogleFonts.montserrat(
-                            fontSize: 13,
-                            color: Colors.black,
+                            fontSize: 15,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -183,7 +181,6 @@ class _BillSplitState extends State<BillSplit> {
                               tip.round().toString(),
                               style: GoogleFonts.montserrat(
                                 fontSize: 20,
-                                color: Colors.black,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
@@ -202,70 +199,91 @@ class _BillSplitState extends State<BillSplit> {
                       ],
                     ),
                   ),
-                  SizedBox(width: 10),
+
+                  // **Tax Input**
                   Container(
-                    width: MediaQuery.of(context).size.width / 3,
-                    height: 70,
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: Colors.lightGreen,
+                      color: Colors.lightGreen.withOpacity(0.3),
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(7.0),
-                      child: TextField(
-                        keyboardType: TextInputType.number,
-                        onChanged: (value) {
-                          setState(() {
-                            tax = value.isEmpty ? '0' : value;
-                          });
-                        },
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
-                          labelText: "Tax in %",
-                          labelStyle: GoogleFonts.montserrat(
+                    child: Column(
+                      children: [
+                        Text(
+                          "Tax %",
+                          style: GoogleFonts.montserrat(
                             fontSize: 15,
-                            color: Colors.black,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
-                      ),
+                        TextField(
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) {
+                            setState(() {
+                              tax = value.isEmpty ? '0' : value;
+                            });
+                          },
+                          textAlign: TextAlign.center,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
+
               SizedBox(height: 20),
+
+              // **Split Bill Button**
               TextButton(
-                style: TextButton.styleFrom(backgroundColor: Colors.greenAccent),
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.greenAccent,
+                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 50),
+                ),
                 onPressed: () {
                   if (bill.isEmpty || double.tryParse(bill) == null) {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Enter a valid bill amount")));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("Enter a valid bill amount")));
                     return;
                   }
                   if (double.tryParse(tax) == null) {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Enter a valid tax percentage")));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("Enter a valid tax percentage")));
                     return;
                   }
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ResultsPage(bill, tax, friendsvalue, tip),
+                      builder: (context) =>
+                          ResultsPage(bill, tax, friendsvalue, tip),
                     ),
                   );
                 },
                 child: Center(
                   child: Text(
-                    "Split Bill",
+                    "Split Bill 💵",
                     style: GoogleFonts.montserrat(
-                      fontSize: 15,
+                      fontSize: 18,
                       fontWeight: FontWeight.w700,
                       color: Colors.black,
                     ),
                   ),
                 ),
               ),
-              SizedBox(height: 10), // Added spacing
+
+              SizedBox(height: 15),
+
+              // **Multiple Payments Option**
               TextButton(
-                style: TextButton.styleFrom(backgroundColor: Colors.greenAccent),
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.blueAccent,
+                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 40),
+                ),
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -274,15 +292,17 @@ class _BillSplitState extends State<BillSplit> {
                 },
                 child: Center(
                   child: Text(
-                    "Split Expenses",
+                    "Multiple Payments 💳",
                     style: GoogleFonts.montserrat(
-                      fontSize: 15,
+                      fontSize: 18,
                       fontWeight: FontWeight.w700,
-                      color: Colors.black,
+                      color: Colors.white,
                     ),
                   ),
                 ),
               ),
+
+              SizedBox(height: 20),
             ],
           ),
         ),
