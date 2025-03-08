@@ -32,6 +32,7 @@ class _BillSplitState extends State<BillSplit> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.lightGreen, // Updated Background Color
       body: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 20),
@@ -46,6 +47,7 @@ class _BillSplitState extends State<BillSplit> {
                   style: GoogleFonts.montserrat(
                     fontSize: 26,
                     fontWeight: FontWeight.w700,
+                    color: Colors.black,
                   ),
                 ),
               ),
@@ -56,7 +58,7 @@ class _BillSplitState extends State<BillSplit> {
               Container(
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: Colors.lightGreen.withOpacity(0.3),
+                  color: Color(0xFFE1AD01), // Updated Box Color
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Column(
@@ -66,6 +68,7 @@ class _BillSplitState extends State<BillSplit> {
                       style: GoogleFonts.montserrat(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
+                        color: Colors.black,
                       ),
                     ),
                     SizedBox(height: 10),
@@ -99,7 +102,7 @@ class _BillSplitState extends State<BillSplit> {
                 width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.all(15),
                 decoration: BoxDecoration(
-                  color: Colors.lightGreen,
+                  color: Color(0xFFE1AD01), // Updated Box Color
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: Column(
@@ -110,6 +113,7 @@ class _BillSplitState extends State<BillSplit> {
                       style: GoogleFonts.montserrat(
                         fontSize: 30,
                         fontWeight: FontWeight.w700,
+                        color: Colors.black,
                       ),
                     ),
                   ],
@@ -142,7 +146,7 @@ class _BillSplitState extends State<BillSplit> {
                 min: 1,
                 max: 15,
                 divisions: 14,
-                activeColor: Colors.green,
+                activeColor: Color(0xFFE1AD01), // Updated Slider Color
                 inactiveColor: Colors.grey,
                 value: friendsvalue,
                 onChanged: (value) {
@@ -163,7 +167,7 @@ class _BillSplitState extends State<BillSplit> {
                     width: MediaQuery.of(context).size.width * 0.4,
                     padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: Colors.lightGreen.withOpacity(0.3),
+                      color: Color(0xFFE1AD01), // Updated Box Color
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Column(
@@ -173,6 +177,7 @@ class _BillSplitState extends State<BillSplit> {
                           style: GoogleFonts.montserrat(
                             fontSize: 15,
                             fontWeight: FontWeight.w700,
+                            color: Colors.black,
                           ),
                         ),
                         Row(
@@ -216,7 +221,7 @@ class _BillSplitState extends State<BillSplit> {
                     width: MediaQuery.of(context).size.width * 0.4,
                     padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: Colors.lightGreen.withOpacity(0.3),
+                      color: Color(0xFFE1AD01), // Updated Box Color
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Column(
@@ -226,6 +231,7 @@ class _BillSplitState extends State<BillSplit> {
                           style: GoogleFonts.montserrat(
                             fontSize: 15,
                             fontWeight: FontWeight.w700,
+                            color: Colors.black,
                           ),
                         ),
                         TextField(
@@ -253,20 +259,10 @@ class _BillSplitState extends State<BillSplit> {
               // **Split Bill Button**
               TextButton(
                 style: TextButton.styleFrom(
-                  backgroundColor: Colors.greenAccent,
+                  backgroundColor: Color(0xFF3E363F), // Updated Button Color
                   padding: EdgeInsets.symmetric(vertical: 15, horizontal: 50),
                 ),
                 onPressed: () {
-                  if (bill.isEmpty || double.tryParse(bill) == null) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("Enter a valid bill amount")));
-                    return;
-                  }
-                  if (double.tryParse(tax) == null) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("Enter a valid tax percentage")));
-                    return;
-                  }
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -281,7 +277,7 @@ class _BillSplitState extends State<BillSplit> {
                     style: GoogleFonts.montserrat(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
-                      color: Colors.black,
+                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -292,7 +288,7 @@ class _BillSplitState extends State<BillSplit> {
               // **Multiple Payments Option**
               TextButton(
                 style: TextButton.styleFrom(
-                  backgroundColor: Colors.blueAccent,
+                  backgroundColor: Color(0xFF3E363F), // Updated Button Color
                   padding: EdgeInsets.symmetric(vertical: 15, horizontal: 40),
                 ),
                 onPressed: () {

@@ -67,26 +67,67 @@ class _SplitExpensesPageState extends State<SplitExpensesPage> {
     Map<String, List<String>> settlements = calculateSettlements();
 
     return Scaffold(
-      appBar: AppBar(title: Text("Split Expenses")),
+      backgroundColor: Colors.lightGreen, // Page Background
+      appBar: AppBar(
+        title: Text("Split Expenses"),
+        backgroundColor: Color(0xFF3E363F), // AppBar Color
+      ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
           children: [
-            TextField(
-              controller: nameController,
-              decoration: InputDecoration(labelText: "Name"),
-            ),
-            TextField(
-              controller: amountController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(labelText: "Amount Paid"),
+            // Name Input
+            Container(
+              decoration: BoxDecoration(
+                color: Color(0xFFE1AD01),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: TextField(
+                controller: nameController,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  labelText: "Name",
+                  contentPadding: EdgeInsets.all(15),
+                  labelStyle: TextStyle(color: Colors.black),
+                ),
+              ),
             ),
             SizedBox(height: 10),
+
+            // Amount Input
+            Container(
+              decoration: BoxDecoration(
+                color: Color(0xFFE1AD01),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: TextField(
+                controller: amountController,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  labelText: "Amount Paid",
+                  contentPadding: EdgeInsets.all(15),
+                  labelStyle: TextStyle(color: Colors.black),
+                ),
+              ),
+            ),
+            SizedBox(height: 15),
+
+            // Add Person Button
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFF3E363F),
+                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+              ),
               onPressed: addPerson,
-              child: Text("Add Person"),
+              child: Text(
+                "Add Person",
+                style: TextStyle(fontSize: 16, color: Colors.white),
+              ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 15),
+
+            // List of People and Settlements
             Expanded(
               child: ListView.builder(
                 itemCount: people.length,
@@ -97,6 +138,7 @@ class _SplitExpensesPageState extends State<SplitExpensesPage> {
                   double balance = paid - fairShare;
 
                   return Card(
+                    color: Color(0xFFE1AD01),
                     margin: EdgeInsets.symmetric(vertical: 8),
                     elevation: 4,
                     child: Padding(
@@ -106,11 +148,11 @@ class _SplitExpensesPageState extends State<SplitExpensesPage> {
                         children: [
                           Text(
                             "$name",
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
                           ),
                           SizedBox(height: 5),
-                          Text("Paid: ₹$paid"),
-                          Text("Fair Share: ₹${fairShare.toStringAsFixed(2)}"),
+                          Text("Paid: ₹$paid", style: TextStyle(color: Colors.black)),
+                          Text("Fair Share: ₹${fairShare.toStringAsFixed(2)}", style: TextStyle(color: Colors.black)),
                           Text(
                             "Balance: ₹${balance.toStringAsFixed(2)}",
                             style: TextStyle(
@@ -119,9 +161,9 @@ class _SplitExpensesPageState extends State<SplitExpensesPage> {
                             ),
                           ),
                           if (settlements[name]!.isNotEmpty) ...[
-                            Divider(),
-                            Text("Settlements:", style: TextStyle(fontWeight: FontWeight.bold)),
-                            ...settlements[name]!.map((settlement) => Text(settlement)),
+                            Divider(color: Colors.black),
+                            Text("Settlements:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
+                            ...settlements[name]!.map((settlement) => Text(settlement, style: TextStyle(color: Colors.black))),
                           ],
                         ],
                       ),
